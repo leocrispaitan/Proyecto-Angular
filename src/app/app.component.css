@@ -1,0 +1,23 @@
+/* Para navegadores basados en WebKit (Chrome, Safari) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 0.5em; /* Puedes ajustar el ancho si quieres que sea visible pero delgado */
+  height: 0.5em; /* Para scrollbars horizontales si los hubiera */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Fondo transparente de la pista del scrollbar */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: transparent; /* Thumb transparente para ocultarlo */
+}
+
+/* Para Firefox */
+.custom-scrollbar {
+  scrollbar-width: none; /* Oculta el scrollbar en Firefox */
+}
+
+/* Para Internet Explorer y Edge (Legacy Edge) */
+.custom-scrollbar {
+  -ms-overflow-style: none; /* Oculta el scrollbar en IE/Edge */
+}
