@@ -1,1204 +1,1362 @@
 <!-- app.component.html -->
 
-<!-- Sidebar -->
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <h3 class="flex items-center justify-center">
-      <i class="fas fa-car mr-2"></i> <span class="logo-text">Auto Admin</span>
-    </h3>
-  </div>
-  <ul class="list-unstyled components">
-    <li>
-      <a href="#" data-section="dashboard" [class.active]="activeSection === 'dashboard'" (click)="showSection('dashboard')">
-        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="add-car" [class.active]="activeSection === 'add-car'" (click)="showSection('add-car')">
-        <i class="fas fa-plus-circle"></i> <span>Añadir Auto</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="manage-cars" [class.active]="activeSection === 'manage-cars'" (click)="showSection('manage-cars')">
-        <i class="fas fa-cogs"></i> <span>Gestionar Autos</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="inventory" [class.active]="activeSection === 'inventory'" (click)="showSection('inventory')">
-        <i class="fas fa-warehouse"></i> <span>Inventario</span>
-      </a>
-    </li>
-    <!-- Nuevas secciones basadas en las tablas de la base de datos -->
-    <li>
-      <a href="#" data-section="clients" [class.active]="activeSection === 'clients'" (click)="showSection('clients')">
-        <i class="fas fa-users"></i> <span>Clientes</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="suppliers" [class.active]="activeSection === 'suppliers'" (click)="showSection('suppliers')">
-        <i class="fas fa-truck"></i> <span>Proveedores</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="sales" [class.active]="activeSection === 'sales'" (click)="showSection('sales')">
-        <i class="fas fa-handshake"></i> <span>Ventas</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="purchases" [class.active]="activeSection === 'purchases'" (click)="showSection('purchases')">
-        <i class="fas fa-shopping-cart"></i> <span>Compras</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="payments" [class.active]="activeSection === 'payments'" (click)="showSection('payments')">
-        <i class="fas fa-money-check-alt"></i> <span>Pagos</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="refunds" [class.active]="activeSection === 'refunds'" (click)="showSection('refunds')">
-        <i class="fas fa-undo"></i> <span>Reembolsos</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="users" [class.active]="activeSection === 'users'" (click)="showSection('users')">
-        <i class="fas fa-user-tie"></i> <span>Usuarios</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" data-section="settings" [class.active]="activeSection === 'settings'" (click)="showSection('settings')">
-        <i class="fas fa-cog"></i> <span>Configuración</span>
-      </a>
-    </li>
-  </ul>
-  <ul class="list-unstyled components mt-auto">
-    <li>
-      <a href="#" data-section="logout" [class.active]="activeSection === 'logout'" (click)="showSection('logout')">
-        <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
-      </a>
-    </li>
-  </ul>
-</div>
+<!-- Contenedor principal flex para sidebar y contenido -->
+<div class="flex h-screen bg-gray-100">
+  <!-- Sidebar -->
+  <div class="bg-gray-800 text-white space-y-6 py-7 px-2 flex-shrink-0
+    fixed inset-y-0 left-0 transform z-30
+    transition-all duration-300 ease-in-out
+    "
+    [class.w-64]="!isSidebarCollapsed"
+    [class.w-16]="isSidebarCollapsed"
+    [class.-translate-x-full]="isMobileSidebarOpen && isMobile"
+    [class.translate-x-0]="!isMobileSidebarOpen || !isMobile"
+    >
+    <!-- El sidebar es fijo y se superpone en móvil, pero es relativo y se adapta en md y > -->
 
-<!-- Main Content -->
-<div class="main-content" id="main-content" [class.expanded]="isSidebarCollapsed">
-  <!-- Navbar (Header) -->
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container-fluid">
+    <div class="flex items-center justify-center px-4 mb-6">
+      <h3 class="flex items-center justify-center text-2xl font-semibold">
+        <i class="fas fa-car mr-2"></i>
+        <span class="logo-text transition-opacity duration-300"
+              [class.opacity-100]="!isSidebarCollapsed"
+              [class.opacity-0]="isSidebarCollapsed"
+              [class.hidden]="isSidebarCollapsed">Auto Admin</span>
+      </h3>
+    </div>
+    <nav>
+      <ul class="space-y-2">
+        <li>
+          <a href="#" data-section="dashboard" [class.bg-gray-700]="activeSection === 'dashboard'"
+            (click)="showSection('dashboard')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-tachometer-alt mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="add-car" [class.bg-gray-700]="activeSection === 'add-car'"
+            (click)="showSection('add-car')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-plus-circle mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Añadir Auto</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="manage-cars" [class.bg-gray-700]="activeSection === 'manage-cars'"
+            (click)="showSection('manage-cars')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-cogs mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Gestionar Autos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="inventory" [class.bg-gray-700]="activeSection === 'inventory'"
+            (click)="showSection('inventory')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-warehouse mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Inventario</span>
+          </a>
+        </li>
+        <!-- Nuevas secciones basadas en las tablas de la base de datos -->
+        <li>
+          <a href="#" data-section="clients" [class.bg-gray-700]="activeSection === 'clients'"
+            (click)="showSection('clients')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-users mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Clientes</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="suppliers" [class.bg-gray-700]="activeSection === 'suppliers'"
+            (click)="showSection('suppliers')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-truck mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Proveedores</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="sales" [class.bg-gray-700]="activeSection === 'sales'"
+            (click)="showSection('sales')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-handshake mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Ventas</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="purchases" [class.bg-gray-700]="activeSection === 'purchases'"
+            (click)="showSection('purchases')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-shopping-cart mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Compras</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="payments" [class.bg-gray-700]="activeSection === 'payments'"
+            (click)="showSection('payments')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-money-check-alt mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Pagos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="refunds" [class.bg-gray-700]="activeSection === 'refunds'"
+            (click)="showSection('refunds')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-undo mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Reembolsos</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="users" [class.bg-gray-700]="activeSection === 'users'"
+            (click)="showSection('users')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-user-tie mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Usuarios</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-section="settings" [class.bg-gray-700]="activeSection === 'settings'"
+            (click)="showSection('settings')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-cog mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Configuración</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="space-y-2 mt-auto pt-6">
+        <li>
+          <a href="#" data-section="logout" [class.bg-gray-700]="activeSection === 'logout'"
+            (click)="showSection('logout')"
+            class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white flex items-center">
+            <i class="fas fa-sign-out-alt mr-3"></i>
+            <span class="transition-opacity duration-300"
+                  [class.opacity-100]="!isSidebarCollapsed"
+                  [class.opacity-0]="isSidebarCollapsed"
+                  [class.hidden]="isSidebarCollapsed">Cerrar Sesión</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Contenido Principal -->
+  <div class="flex-1 p-6 transition-all duration-300 ease-in-out overflow-auto"
+    [class.md:ml-64]="!isSidebarCollapsed && !isMobile"
+    [class.md:ml-16]="isSidebarCollapsed && !isMobile"
+    [class.ml-0]="isMobile"
+    id="main-content">
+    <!-- Navbar (Cabecera) -->
+    <nav class="bg-white shadow-md py-4 px-6 flex items-center justify-between">
       <!-- Botón para alternar la barra lateral (visible en pantallas pequeñas) -->
-      <button class="navbar-toggler" type="button" (click)="toggleMobileSidebar()">
-        <span class="navbar-toggler-icon"></span>
+      <button class="md:hidden text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700"
+        type="button" (click)="toggleMobileSidebar()">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
       </button>
       <!-- Botón para colapsar/expandir en pantallas grandes -->
-      <button class="btn btn-outline-primary me-3 d-none d-lg-block" (click)="toggleSidebarCollapse()">
+      <button
+        class="hidden lg:block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mr-3"
+        (click)="toggleSidebarCollapse()">
         <i class="fas fa-bars"></i>
       </button>
-      <a class="navbar-brand d-none d-lg-block" href="#">Dashboard de Concesionaria</a>
-      <div class="ms-auto d-flex align-items-center">
-        <div class="dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="fas fa-user-circle me-2"></i> Admin User
+      <a class="text-xl font-bold text-gray-800 hidden lg:block" href="#">Dashboard de Concesionaria</a>
+      <div class="ml-auto flex items-center">
+        <div class="relative group"> <!-- Añadido 'group' para el hover del dropdown -->
+          <a class="flex items-center text-gray-600 hover:text-gray-800 cursor-pointer" id="navbarDropdown" role="button"
+            aria-expanded="false">
+            <i class="fas fa-user-circle mr-2"></i> Admin User
           </a>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Perfil</a></li>
-            <li><a class="dropdown-item" href="#">Configuración</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+          <ul
+            class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20 hidden group-hover:block"
+            aria-labelledby="navbarDropdown">
+            <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">Perfil</a></li>
+            <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">Configuración</a></li>
+            <li>
+              <hr class="border-t border-gray-200 my-1">
+            </li>
+            <li><a class="block px-4 py-2 text-gray-700 hover:bg-gray-100" href="#">Cerrar Sesión</a></li>
           </ul>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- Contenido principal dinámico -->
-  <div [ngSwitch]="activeSection">
-    <div *ngSwitchCase="'dashboard'" id="dashboard-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Dashboard General</h2>
-      <div class="row">
-        <div class="col-md-3">
-          <div class="card metric-card">
-            <div class="card-body">
-              <i class="fas fa-car icon"></i>
-              <div class="value">250</div>
-              <div class="label">Total de Autos</div>
+    <!-- Contenido principal dinámico -->
+    <div [ngSwitch]="activeSection">
+      <div *ngSwitchCase="'dashboard'" id="dashboard-section" class="content-section">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Dashboard General</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-lg shadow-md p-6 metric-card">
+            <div class="flex items-center justify-between">
+              <i class="fas fa-car text-4xl text-blue-500"></i>
+              <div>
+                <div class="text-3xl font-bold text-gray-900">250</div>
+                <div class="text-sm text-gray-500">Total de Autos</div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6 metric-card">
+            <div class="flex items-center justify-between">
+              <i class="fas fa-dollar-sign text-4xl text-green-600"></i>
+              <div>
+                <div class="text-3xl font-bold text-gray-900">120</div>
+                <div class="text-sm text-gray-500">Autos Vendidos</div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6 metric-card">
+            <div class="flex items-center justify-between">
+              <i class="fas fa-boxes text-4xl text-yellow-600"></i>
+              <div>
+                <div class="text-3xl font-bold text-gray-900">130</div>
+                <div class="text-sm text-gray-500">Stock Disponible</div>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white rounded-lg shadow-md p-6 metric-card">
+            <div class="flex items-center justify-between">
+              <i class="fas fa-clipboard-list text-4xl text-red-600"></i>
+              <div>
+                <div class="text-3xl font-bold text-gray-900">15</div>
+                <div class="text-sm text-gray-500">Órdenes Pendientes</div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col-md-3">
-          <div class="card metric-card">
-            <div class="card-body">
-              <i class="fas fa-dollar-sign icon text-green-600"></i>
-              <div class="value">120</div>
-              <div class="label">Autos Vendidos</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card metric-card">
-            <div class="card-body">
-              <i class="fas fa-boxes icon text-yellow-600"></i>
-              <div class="value">130</div>
-              <div class="label">Stock Disponible</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="card metric-card">
-            <div class="card-body">
-              <i class="fas fa-clipboard-list icon text-red-600"></i>
-              <div class="value">15</div>
-              <div class="label">Órdenes Pendientes</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="row mt-4">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header bg-success text-white">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+          <div class="bg-white rounded-lg shadow-md">
+            <div class="bg-green-500 text-white p-4 rounded-t-lg font-semibold">
               Actividad Reciente
             </div>
-            <div class="card-body">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Nuevo auto añadido: Honda Civic 2023
-                  <span class="badge bg-primary rounded-pill">Hace 5 min</span>
+            <div class="p-4">
+              <ul class="divide-y divide-gray-200">
+                <li class="py-3 flex justify-between items-center">
+                  <span>Nuevo auto añadido: Honda Civic 2023</span>
+                  <span class="bg-blue-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Hace 5 min</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Venta completada: Ford F-150
-                  <span class="badge bg-success rounded-pill">Hace 1 hora</span>
+                <li class="py-3 flex justify-between items-center">
+                  <span>Venta completada: Ford F-150</span>
+                  <span class="bg-green-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Hace 1 hora</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Stock actualizado: Toyota Camry (+3)
-                  <span class="badge bg-info rounded-pill">Hace 3 horas</span>
+                <li class="py-3 flex justify-between items-center">
+                  <span>Stock actualizado: Toyota Camry (+3)</span>
+                  <span class="bg-blue-400 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Hace 3 horas</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  Nuevo cliente registrado
-                  <span class="badge bg-secondary rounded-pill">Hace 1 día</span>
+                <li class="py-3 flex justify-between items-center">
+                  <span>Nuevo cliente registrado</span>
+                  <span class="bg-gray-500 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full">Hace 1 día</span>
                 </li>
               </ul>
             </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header bg-info text-white">
+          <div class="bg-white rounded-lg shadow-md">
+            <div class="bg-blue-400 text-white p-4 rounded-t-lg font-semibold">
               Acciones Rápidas
             </div>
-            <div class="card-body d-flex flex-column gap-3">
-              <button class="btn btn-primary d-block" (click)="showSection('add-car')">
-                <i class="fas fa-plus-circle me-2"></i> Añadir Nuevo Auto
+            <div class="p-4 flex flex-col space-y-3">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
+                (click)="showSection('add-car')">
+                <i class="fas fa-plus-circle mr-2"></i> Añadir Nuevo Auto
               </button>
-              <button class="btn btn-outline-secondary d-block" (click)="showSection('manage-cars')">
-                <i class="fas fa-cogs me-2"></i> Gestionar Autos Existentes
+              <button
+                class="bg-transparent hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded w-full"
+                (click)="showSection('manage-cars')">
+                <i class="fas fa-cogs mr-2"></i> Gestionar Autos Existentes
               </button>
-              <button class="btn btn-outline-secondary d-block" (click)="showSection('inventory')">
-                <i class="fas fa-warehouse me-2"></i> Ver Inventario Completo
+              <button
+                class="bg-transparent hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded w-full"
+                (click)="showSection('inventory')">
+                <i class="fas fa-warehouse mr-2"></i> Ver Inventario Completo
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div *ngSwitchCase="'add-car'" id="add-car-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Añadir Nuevo Automóvil</h2>
-      <div class="card">
-        <div class="card-body">
-          <form id="add-car-form">
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label for="carMake" class="form-label">Marca</label>
-                <input type="text" class="form-control" id="carMake" placeholder="Ej: Toyota" required>
+      <!-- Sección para Añadir Nuevo Automóvil -->
+      <div *ngSwitchCase="'add-car'" id="add-car-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Añadir Nuevo Automóvil</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <form id="add-car-form">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                          <label for="carMake" class="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+                          <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carMake" placeholder="Ej: Toyota" required>
+                      </div>
+                      <div>
+                          <label for="carModel" class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+                          <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carModel" placeholder="Ej: Corolla" required>
+                      </div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div>
+                          <label for="carYear" class="block text-sm font-medium text-gray-700 mb-1">Año</label>
+                          <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carYear" placeholder="Ej: 2023" min="1900" max="2099" required>
+                      </div>
+                      <div>
+                          <label for="carColor" class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+                          <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carColor" placeholder="Ej: Rojo" required>
+                      </div>
+                      <div>
+                          <label for="carMileage" class="block text-sm font-medium text-gray-700 mb-1">Kilometraje</label>
+                          <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carMileage" placeholder="Ej: 50000" min="0" required>
+                      </div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                          <label for="carType" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                          <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carType" placeholder="Ej: Sedán" required>
+                      </div>
+                      <div>
+                          <label for="carPrice" class="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
+                          <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carPrice" placeholder="Ej: 25000" min="0" step="0.01" required>
+                      </div>
+                  </div>
+                  <div class="mb-4">
+                      <label for="carDescription" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+                      <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carDescription" rows="3" placeholder="Descripción detallada del vehículo..."></textarea>
+                  </div>
+                  <div class="mb-4">
+                      <label for="carImageUrl" class="block text-sm font-medium text-gray-700 mb-1">URL de Imagen</label>
+                      <input type="url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carImageUrl" placeholder="Ej: https://example.com/imagen.jpg">
+                  </div>
+                  <div class="mb-6">
+                      <label for="carStatus" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                      <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="carStatus" required>
+                          <option value="disponible">Disponible</option>
+                          <option value="vendido">Vendido</option>
+                          <option value="reservado">Reservado</option>
+                          <option value="mantenimiento">En Mantenimiento</option>
+                      </select>
+                  </div>
+                  <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out">
+                      <i class="fas fa-save mr-2"></i> Guardar Auto
+                  </button>
+              </form>
+          </div>
+      </div>
+
+      <!-- Sección para Gestionar Automóviles -->
+      <div *ngSwitchCase="'manage-cars'" id="manage-cars-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestionar Automóviles</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="car-search" placeholder="Buscar por marca, modelo, VIN...">
               </div>
-              <div class="col-md-6">
-                <label for="carModel" class="form-label">Modelo</label>
-                <input type="text" class="form-control" id="carModel" placeholder="Ej: Corolla" required>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Imagen</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marca</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Modelo</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Año</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200" id="cars-table-body">
+                          <!-- Ejemplo de datos (serán llenados por Spring Boot en el futuro) -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">1</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <img src="https://placehold.co/80x50/aabbcc/ffffff?text=Auto1" alt="Auto 1" class="h-12 w-16 object-cover rounded-md">
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">Honda</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Civic</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2023</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$28,500.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">Disponible</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('editCarModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">2</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <img src="https://placehold.co/80x50/ccbbbb/ffffff?text=Auto2" alt="Auto 2" class="h-12 w-16 object-cover rounded-md">
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">Toyota</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Camry</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2022</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$26,000.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-red-600 font-semibold">Vendido</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('editCarModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">3</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <img src="https://placehold.co/80x50/bbccaa/ffffff?text=Auto3" alt="Auto 3" class="h-12 w-16 object-cover rounded-md">
+                              </td>
+                              <td class="px-6 py-4 whitespace-nowrap">Ford</td>
+                              <td class="px-6 py-4 whitespace-nowrap">F-150</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2024</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$45,000.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">Disponible</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('editCarModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas si es necesario -->
+                      </tbody>
+                  </table>
               </div>
-              <div class="col-md-4">
-                <label for="carYear" class="form-label">Año</label>
-                <input type="number" class="form-control" id="carYear" placeholder="Ej: 2023" min="1900" max="2099" required>
+          </div>
+      </div>
+
+      <!-- Sección para Inventario de Automóviles -->
+      <div *ngSwitchCase="'inventory'" id="inventory-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Inventario de Automóviles</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex flex-col md:flex-row justify-between items-center mb-4 gap-4">
+                  <input type="text" class="flex-1 mt-1 block w-full md:w-auto rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Filtrar inventario...">
+                  <button class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out w-full md:w-auto">
+                      <i class="fas fa-file-excel mr-2"></i> Exportar a Excel
+                  </button>
               </div>
-              <div class="col-md-4">
-                <label for="carColor" class="form-label">Color</label>
-                <input type="text" class="form-control" id="carColor" placeholder="Ej: Rojo" required>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Marca</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Modelo</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Año</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Color</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kilometraje</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">101</td>
+                              <td class="px-6 py-4 whitespace-nowrap">BMW</td>
+                              <td class="px-6 py-4 whitespace-nowrap">X5</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2023</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Negro</td>
+                              <td class="px-6 py-4 whitespace-nowrap">15000</td>
+                              <td class="px-6 py-4 whitespace-nowrap">SUV</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">Disponible</td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">102</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Mercedes-Benz</td>
+                              <td class="px-6 py-4 whitespace-nowrap">C-Class</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2022</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Blanco</td>
+                              <td class="px-6 py-4 whitespace-nowrap">22000</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Sedán</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$48,000.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">Disponible</td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">103</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Audi</td>
+                              <td class="px-6 py-4 whitespace-nowrap">A4</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2023</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Gris</td>
+                              <td class="px-6 py-4 whitespace-nowrap">8000</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Sedán</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-yellow-600 font-semibold">Bajo Stock</td>
+                          </tr>
+                          <!-- Más filas si es necesario -->
+                      </tbody>
+                  </table>
               </div>
-              <div class="col-md-4">
-                <label for="carMileage" class="form-label">Kilometraje</label>
-                <input type="number" class="form-control" id="carMileage" placeholder="Ej: 50000" min="0" required>
+          </div>
+      </div>
+
+      <!-- Sección para Clientes -->
+      <div *ngSwitchCase="'clients'" id="clients-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Clientes</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('client'); isEditMode = false; openModal('clientModal')">
+                      <i class="fas fa-user-plus mr-2"></i> Añadir Nuevo Cliente
+                  </button>
               </div>
-              <div class="col-md-6">
-                <label for="carType" class="form-label">Tipo</label>
-                <input type="text" class="form-control" id="carType" placeholder="Ej: Sedán" required>
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por nombre, DNI, correo...">
               </div>
-              <div class="col-md-6">
-                <label for="carPrice" class="form-label">Precio ($)</label>
-                <input type="number" class="form-control" id="carPrice" placeholder="Ej: 25000" min="0" step="0.01" required>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">1</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Juan Pérez</td>
+                              <td class="px-6 py-4 whitespace-nowrap">12345678</td>
+                              <td class="px-6 py-4 whitespace-nowrap">912345678</td>
+                              <td class="px-6 py-4 whitespace-nowrap">juan.perezexample.com</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="setCurrentEntity('client'); isEditMode = true; openModal('clientModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">2</td>
+                              <td class="px-6 py-4 whitespace-nowrap">María García</td>
+                              <td class="px-6 py-4 whitespace-nowrap">87654321</td>
+                              <td class="px-6 py-4 whitespace-nowrap">912345678</td>
+                              <td class="px-6 py-4 whitespace-nowrap">maria.garciaexample.com</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="setCurrentEntity('client'); isEditMode = true; openModal('clientModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
               </div>
-              <div class="col-12">
-                <label for="carDescription" class="form-label">Descripción</label>
-                <textarea class="form-control" id="carDescription" rows="3" placeholder="Descripción detallada del vehículo..."></textarea>
+          </div>
+      </div>
+
+      <!-- Sección para Proveedores -->
+      <div *ngSwitchCase="'suppliers'" id="suppliers-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Proveedores</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('supplier'); isEditMode = false; openModal('supplierModal')">
+                      <i class="fas fa-plus mr-2"></i> Añadir Nuevo Proveedor
+                  </button>
               </div>
-              <div class="col-12">
-                <label for="carImageUrl" class="form-label">URL de Imagen</label>
-                <input type="url" class="form-control" id="carImageUrl" placeholder="Ej: https://example.com/imagen.jpg">
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por nombre de empresa, RUC...">
               </div>
-              <div class="col-md-6">
-                <label for="carStatus" class="form-label">Estado</label>
-                <select class="form-select" id="carStatus" required>
-                  <option value="disponible">Disponible</option>
-                  <option value="vendido">Vendido</option>
-                  <option value="reservado">Reservado</option>
-                  <option value="mantenimiento">En Mantenimiento</option>
-                </select>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre Empresa</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">RUC</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contacto</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teléfono</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">1</td>
+                              <td class="px-6 py-4 whitespace-nowrap">AutoParts S.A.C.</td>
+                              <td class="px-6 py-4 whitespace-nowrap">20123456789</td>
+                              <td class="px-6 py-4 whitespace-nowrap">María López</td>
+                              <td class="px-6 py-4 whitespace-nowrap">998877665</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="setCurrentEntity('supplier'); isEditMode = true; openModal('supplierModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
               </div>
-              <div class="col-12 mt-4">
-                <button type="submit" class="btn btn-primary w-full">
-                  <i class="fas fa-save me-2"></i> Guardar Auto
-                </button>
+          </div>
+      </div>
+
+      <!-- Sección para Ventas -->
+      <div *ngSwitchCase="'sales'" id="sales-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Ventas</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('sale'); isEditMode = false; openModal('saleModal')">
+                      <i class="fas fa-cart-plus mr-2"></i> Registrar Nueva Venta
+                  </button>
               </div>
-            </div>
-          </form>
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por cliente, auto, usuario...">
+              </div>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Venta</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Auto Vendido</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Venta</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">1001</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Juan Pérez</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Honda Civic (2023)</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Vendedor A</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2024-05-10</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$28,500.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('saleModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+      <!-- Sección para Compras -->
+      <div *ngSwitchCase="'purchases'" id="purchases-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Compras</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('purchase'); isEditMode = false; openModal('purchaseModal')">
+                      <i class="fas fa-truck-loading mr-2"></i> Registrar Nueva Compra
+                  </button>
+              </div>
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por proveedor, auto, fecha...">
+              </div>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Compra</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Proveedor</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Auto Comprado</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Precio Compra</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">2001</td>
+                              <td class="px-6 py-4 whitespace-nowrap">DistriAutos S.R.L.</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Toyota Rav4 (2022)</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2024-04-15</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$22,000.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('purchaseModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+      <!-- Sección para Pagos -->
+      <div *ngSwitchCase="'payments'" id="payments-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Pagos</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('payment'); isEditMode = false; openModal('paymentModal')">
+                      <i class="fas fa-receipt mr-2"></i> Registrar Nuevo Pago
+                  </button>
+              </div>
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por venta, método, fecha...">
+              </div>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Pago</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Venta</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Método de Pago</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">3001</td>
+                              <td class="px-6 py-4 whitespace-nowrap">1001</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Tarjeta Crédito</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$14,250.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2024-05-10</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('paymentModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+      <!-- Sección para Reembolsos -->
+      <div *ngSwitchCase="'refunds'" id="refunds-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Reembolsos</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('refund'); isEditMode = false; openModal('refundModal')">
+                      <i class="fas fa-hand-holding-usd mr-2"></i> Registrar Nuevo Reembolso
+                  </button>
+              </div>
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por venta, motivo, fecha...">
+              </div>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Reembolso</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Venta</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Motivo</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Monto</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">4001</td>
+                              <td class="px-6 py-4 whitespace-nowrap">1002</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Cliente insatisfecho</td>
+                              <td class="px-6 py-4 whitespace-nowrap">$500.00</td>
+                              <td class="px-6 py-4 whitespace-nowrap">2024-05-12</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="openModal('refundModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+      <!-- Sección para Usuarios -->
+      <div *ngSwitchCase="'users'" id="users-section" class="content-section p-6">
+          <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Usuarios</h2>
+          <div class="bg-white rounded-lg shadow-md p-6">
+              <div class="flex justify-end mb-4">
+                  <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="setCurrentEntity('user'); isEditMode = false; openModal('userModal')">
+                      <i class="fas fa-user-plus mr-2"></i> Añadir Nuevo Usuario
+                  </button>
+              </div>
+              <div class="mb-4">
+                  <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Buscar por nombre, correo, rol...">
+              </div>
+              <div class="overflow-x-auto">
+                  <table class="min-w-full divide-y divide-gray-200">
+                      <thead class="bg-gray-50">
+                          <tr>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Apellido</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Correo</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody class="bg-white divide-y divide-gray-200">
+                          <!-- Datos de ejemplo, a ser llenados dinámicamente -->
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">1</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Admin</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Principal</td>
+                              <td class="px-6 py-4 whitespace-nowrap">adminexample.com</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Administrador</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">Activo</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="setCurrentEntity('user'); isEditMode = true; openModal('userModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <tr>
+                              <td class="px-6 py-4 whitespace-nowrap">2</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Vendedor</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Ejemplo</td>
+                              <td class="px-6 py-4 whitespace-nowrap">vendedorexample.com</td>
+                              <td class="px-6 py-4 whitespace-nowrap">Vendedor</td>
+                              <td class="px-6 py-4 whitespace-nowrap text-green-600 font-semibold">Activo</td>
+                              <td class="px-6 py-4 whitespace-nowrap">
+                                  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm mr-2" (click)="setCurrentEntity('user'); isEditMode = true; openModal('userModal')"><i class="fas fa-edit"></i></button>
+                                  <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded text-sm" (click)="openModal('deleteConfirmationModal')"><i class="fas fa-trash-alt"></i></button>
+                              </td>
+                          </tr>
+                          <!-- Más filas -->
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+
+      <div *ngSwitchCase="'settings'" id="settings-section" class="content-section p-6">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Configuración del Sistema</h2>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <p class="mb-4 text-gray-700">Aquí irían las opciones de configuración del sistema, como gestión de usuarios, roles, ajustes de notificaciones, etc. ¡Será una sección importante para tu Spring Boot!</p>
+          <button class="bg-transparent hover:bg-blue-100 text-blue-700 font-semibold py-2 px-4 border border-blue-500 rounded-md transition duration-150 ease-in-out">Guardar Configuración</button>
         </div>
       </div>
-    </div>
 
-    <div *ngSwitchCase="'manage-cars'" id="manage-cars-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestionar Automóviles</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3">
-            <input type="text" class="form-control" id="car-search" placeholder="Buscar por marca, modelo, VIN...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Imagen</th> <!-- Nueva columna para imagen -->
-                  <th>Marca</th>
-                  <th>Modelo</th>
-                  <th>Año</th>
-                  <th>Precio</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="cars-table-body">
-                <!-- Ejemplo de datos (serán llenados por Spring Boot en el futuro) -->
-                <tr>
-                  <td>1</td>
-                  <td><img src="https://placehold.co/80x50/aabbcc/ffffff?text=Auto1" alt="Auto 1" class="car-thumbnail"></td>
-                  <td>Honda</td>
-                  <td>Civic</td>
-                  <td>2023</td>
-                  <td>$28,500.00</td>
-                  <td>Disponible</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#editCarModal"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td><img src="https://placehold.co/80x50/ccbbbb/ffffff?text=Auto2" alt="Auto 2" class="car-thumbnail"></td>
-                  <td>Toyota</td>
-                  <td>Camry</td>
-                  <td>2022</td>
-                  <td>$26,000.00</td>
-                  <td>Vendido</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#editCarModal"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td><img src="https://placehold.co/80x50/bbccaa/ffffff?text=Auto3" alt="Auto 3" class="car-thumbnail"></td>
-                  <td>Ford</td>
-                  <td>F-150</td>
-                  <td>2024</td>
-                  <td>$45,000.00</td>
-                  <td>Disponible</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#editCarModal"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas si es necesario -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div *ngSwitchCase="'inventory'" id="inventory-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Inventario de Automóviles</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 row">
-            <div class="col-md-6">
-              <input type="text" class="form-control" placeholder="Filtrar inventario...">
-            </div>
-            <div class="col-md-6 text-md-end">
-              <button class="btn btn-success"><i class="fas fa-file-excel me-2"></i> Exportar a Excel</button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-striped align-middle">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Marca</th>
-                  <th>Modelo</th>
-                  <th>Año</th>
-                  <th>Color</th>
-                  <th>Kilometraje</th>
-                  <th>Tipo</th>
-                  <th>Precio</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>101</td>
-                  <td>BMW</td>
-                  <td>X5</td>
-                  <td>2023</td>
-                  <td>Negro</td>
-                  <td>15000</td>
-                  <td>SUV</td>
-                  <td>$65,000.00</td>
-                  <td class="text-success font-semibold">Disponible</td>
-                </tr>
-                <tr>
-                  <td>102</td>
-                  <td>Mercedes-Benz</td>
-                  <td>C-Class</td>
-                  <td>2022</td>
-                  <td>Blanco</td>
-                  <td>22000</td>
-                  <td>Sedán</td>
-                  <td>$48,000.00</td>
-                  <td class="text-success font-semibold">Disponible</td>
-                </tr>
-                <tr>
-                  <td>103</td>
-                  <td>Audi</td>
-                  <td>A4</td>
-                  <td>2023</td>
-                  <td>Gris</td>
-                  <td>8000</td>
-                  <td>Sedán</td>
-                  <td>$42,000.00</td>
-                  <td class="text-warning font-semibold">Bajo Stock</td>
-                </tr>
-                <!-- Más filas si es necesario -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Clientes -->
-    <div *ngSwitchCase="'clients'" id="clients-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Clientes</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientModal" (click)="setCurrentEntity('client'); isEditMode = false;">
-              <i class="fas fa-user-plus me-2"></i> Añadir Nuevo Cliente
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por nombre, DNI, correo...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>DNI</th>
-                  <th>Teléfono</th>
-                  <th>Correo</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>1</td>
-                  <td>Juan Pérez</td>
-                  <td>12345678</td>
-                  <td>987654321</td>
-                  <td>juan.perezexample.com</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#clientModal" (click)="setCurrentEntity('client'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>María García</td>
-                  <td>87654321</td>
-                  <td>912345678</td>
-                  <td>maria.garciaexample.com</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#clientModal" (click)="setCurrentEntity('client'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Proveedores -->
-    <div *ngSwitchCase="'suppliers'" id="suppliers-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Proveedores</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#supplierModal" (click)="setCurrentEntity('supplier'); isEditMode = false;">
-              <i class="fas fa-plus me-2"></i> Añadir Nuevo Proveedor
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por nombre de empresa, RUC...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre Empresa</th>
-                  <th>RUC</th>
-                  <th>Contacto</th>
-                  <th>Teléfono</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>1</td>
-                  <td>AutoParts S.A.C.</td>
-                  <td>20123456789</td>
-                  <td>María López</td>
-                  <td>998877665</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#supplierModal" (click)="setCurrentEntity('supplier'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Ventas -->
-    <div *ngSwitchCase="'sales'" id="sales-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Ventas</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saleModal" (click)="setCurrentEntity('sale'); isEditMode = false;">
-              <i class="fas fa-cart-plus me-2"></i> Registrar Nueva Venta
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por cliente, auto, usuario...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID Venta</th>
-                  <th>Cliente</th>
-                  <th>Auto Vendido</th>
-                  <th>Usuario</th>
-                  <th>Fecha</th>
-                  <th>Precio Venta</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>1001</td>
-                  <td>Juan Pérez</td>
-                  <td>Honda Civic (2023)</td>
-                  <td>Vendedor A</td>
-                  <td>2024-05-10</td>
-                  <td>$28,500.00</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#saleModal" (click)="setCurrentEntity('sale'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Compras -->
-    <div *ngSwitchCase="'purchases'" id="purchases-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Compras</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#purchaseModal" (click)="setCurrentEntity('purchase'); isEditMode = false;">
-              <i class="fas fa-truck-loading me-2"></i> Registrar Nueva Compra
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por proveedor, auto, fecha...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID Compra</th>
-                  <th>Proveedor</th>
-                  <th>Auto Comprado</th>
-                  <th>Fecha</th>
-                  <th>Precio Compra</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>2001</td>
-                  <td>DistriAutos S.R.L.</td>
-                  <td>Toyota Rav4 (2022)</td>
-                  <td>2024-04-15</td>
-                  <td>$22,000.00</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#purchaseModal" (click)="setCurrentEntity('purchase'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Pagos -->
-    <div *ngSwitchCase="'payments'" id="payments-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Pagos</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal" (click)="setCurrentEntity('payment'); isEditMode = false;">
-              <i class="fas fa-receipt me-2"></i> Registrar Nuevo Pago
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por venta, método, fecha...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID Pago</th>
-                  <th>ID Venta</th>
-                  <th>Método de Pago</th>
-                  <th>Monto</th>
-                  <th>Fecha</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>3001</td>
-                  <td>1001</td>
-                  <td>Tarjeta Crédito</td>
-                  <td>$14,250.00</td>
-                  <td>2024-05-10</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#paymentModal" (click)="setCurrentEntity('payment'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Reembolsos -->
-    <div *ngSwitchCase="'refunds'" id="refunds-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Reembolsos</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#refundModal" (click)="setCurrentEntity('refund'); isEditMode = false;">
-              <i class="fas fa-hand-holding-usd me-2"></i> Registrar Nuevo Reembolso
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por venta, motivo, fecha...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID Reembolso</th>
-                  <th>ID Venta</th>
-                  <th>Motivo</th>
-                  <th>Monto</th>
-                  <th>Fecha</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>4001</td>
-                  <td>1002</td>
-                  <td>Cliente insatisfecho</td>
-                  <td>$500.00</td>
-                  <td>2024-05-12</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#refundModal" (click)="setCurrentEntity('refund'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sección para Usuarios -->
-    <div *ngSwitchCase="'users'" id="users-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestión de Usuarios</h2>
-      <div class="card">
-        <div class="card-body">
-          <div class="mb-3 d-flex justify-content-end">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal" (click)="setCurrentEntity('user'); isEditMode = false;">
-              <i class="fas fa-user-plus me-2"></i> Añadir Nuevo Usuario
-            </button>
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Buscar por nombre, correo, rol...">
-          </div>
-          <div class="table-responsive">
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Correo</th>
-                  <th>Rol</th>
-                  <th>Estado</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Datos de ejemplo, a ser llenados dinámicamente -->
-                <tr>
-                  <td>1</td>
-                  <td>Admin</td>
-                  <td>Principal</td>
-                  <td>adminexample.com</td>
-                  <td>Administrador</td>
-                  <td>Activo</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#userModal" (click)="setCurrentEntity('user'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Vendedor</td>
-                  <td>Ejemplo</td>
-                  <td>vendedorexample.com</td>
-                  <td>Vendedor</td>
-                  <td>Activo</td>
-                  <td>
-                    <button class="btn btn-sm btn-info me-2 text-white" data-bs-toggle="modal" data-bs-target="#userModal" (click)="setCurrentEntity('user'); isEditMode = true;"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal"><i class="fas fa-trash-alt"></i></button>
-                  </td>
-                </tr>
-                <!-- Más filas -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div *ngSwitchCase="'settings'" id="settings-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Configuración del Sistema</h2>
-      <div class="card">
-        <div class="card-body">
-          <p>Aquí irían las opciones de configuración del sistema, como gestión de usuarios, roles, ajustes de notificaciones, etc. ¡Será una sección importante para tu Spring Boot!</p>
-          <button class="btn btn-outline-primary">Guardar Configuración</button>
-        </div>
-      </div>
-    </div>
-
-    <div *ngSwitchCase="'logout'" id="logout-section" class="content-section">
-      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Cerrar Sesión</h2>
-      <div class="card">
-        <div class="card-body">
-          <p>¿Estás seguro de que quieres cerrar tu sesión?</p>
-          <button class="btn btn-danger me-2">Sí, Cerrar Sesión</button>
-          <button class="btn btn-secondary" (click)="showSection('dashboard')">Cancelar</button>
+      <div *ngSwitchCase="'logout'" id="logout-section" class="content-section p-6">
+        <h2 class="mb-4 text-2xl font-semibold text-gray-800">Cerrar Sesión</h2>
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <p class="mb-4 text-gray-700">¿Estás seguro de que quieres cerrar tu sesión?</p>
+          <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out mr-2">Sí, Cerrar Sesión</button>
+          <button class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md transition duration-150 ease-in-out" (click)="showSection('dashboard')">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modales Comunes -->
+  <!-- Modales Comunes (controlados por Angular y Tailwind) -->
 
-<!-- Modal de Confirmación de Eliminación -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirmar Eliminación</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <!-- Modal de Confirmación de Eliminación -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['deleteConfirmationModal']" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-96 shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['deleteConfirmationModal']"
+      [class.scale-95]="!isModalOpen['deleteConfirmationModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="deleteConfirmationModalLabel">Confirmar Eliminación</h5>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('deleteConfirmationModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2 text-gray-600">
         ¿Estás seguro de que quieres eliminar este registro? Esta acción no se puede deshacer.
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-danger">Eliminar</button>
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('deleteConfirmationModal')">Cancelar</button>
+        <button type="button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md">Eliminar</button>
       </div>
     </div>
   </div>
-</div>
 
 
-<!-- Modal genérico para Autos (Editar) -->
-<div class="modal fade" id="editCarModal" tabindex="-1" aria-labelledby="editCarModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editCarModalLabel">Editar Automóvil</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <!-- Modal genérico para Autos (Editar) -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['editCarModal']" tabindex="-1" aria-labelledby="editCarModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['editCarModal']"
+      [class.scale-95]="!isModalOpen['editCarModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="editCarModalLabel">Editar Automóvil</h5>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('editCarModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="editCarMake" class="form-label">Marca</label>
-              <input type="text" class="form-control" id="editCarMake" value="Honda" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="editCarMake" class="block text-sm font-medium text-gray-700 mb-1">Marca</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarMake" value="Honda" required>
             </div>
-            <div class="col-md-6">
-              <label for="editCarModel" class="form-label">Modelo</label>
-              <input type="text" class="form-control" id="editCarModel" value="Civic" required>
+            <div>
+              <label for="editCarModel" class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarModel" value="Civic" required>
             </div>
-            <div class="col-md-4">
-              <label for="editCarYear" class="form-label">Año</label>
-              <input type="number" class="form-control" id="editCarYear" value="2023" min="1900" max="2099" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+              <label for="editCarYear" class="block text-sm font-medium text-gray-700 mb-1">Año</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarYear" value="2023" min="1900" max="2099" required>
             </div>
-            <div class="col-md-4">
-              <label for="editCarColor" class="form-label">Color</label>
-              <input type="text" class="form-control" id="editCarColor" value="Rojo" required>
+            <div>
+              <label for="editCarColor" class="block text-sm font-medium text-gray-700 mb-1">Color</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarColor" value="Rojo" required>
             </div>
-            <div class="col-md-4">
-              <label for="editCarMileage" class="form-label">Kilometraje</label>
-              <input type="number" class="form-control" id="editCarMileage" value="25000" min="0" required>
+            <div>
+              <label for="editCarMileage" class="block text-sm font-medium text-gray-700 mb-1">Kilometraje</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarMileage" value="25000" min="0" required>
             </div>
-            <div class="col-md-6">
-              <label for="editCarType" class="form-label">Tipo</label>
-              <input type="text" class="form-control" id="editCarType" value="Sedán" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="editCarType" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarType" value="Sedán" required>
             </div>
-            <div class="col-md-6">
-              <label for="editCarPrice" class="form-label">Precio ($)</label>
-              <input type="number" class="form-control" id="editCarPrice" value="28500.00" min="0" step="0.01" required>
+            <div>
+              <label for="editCarPrice" class="block text-sm font-medium text-gray-700 mb-1">Precio ($)</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarPrice" value="28500.00" min="0" step="0.01" required>
             </div>
-            <div class="col-12">
-              <label for="editCarDescription" class="form-label">Descripción</label>
-              <textarea class="form-control" id="editCarDescription" rows="3">Este es un Honda Civic 2023 en excelente estado.</textarea>
-            </div>
-            <div class="col-12">
-              <label for="editCarImageUrl" class="form-label">URL de Imagen</label>
-              <input type="url" class="form-control" id="editCarImageUrl" value="https://www.changan.com.pe/media/an4jwp0t/alsvin-web-1000x493-rojo.png">
-            </div>
-            <div class="col-md-6">
-              <label for="editCarStatus" class="form-label">Estado</label>
-              <select class="form-select" id="editCarStatus" required>
-                <option value="disponible" selected>Disponible</option>
-                <option value="vendido">Vendido</option>
-                <option value="reservado">Reservado</option>
-                <option value="mantenimiento">En Mantenimiento</option>
-              </select>
-            </div>
+          </div>
+          <div class="mb-4">
+            <label for="editCarDescription" class="block text-sm font-medium text-gray-700 mb-1">Descripción</label>
+            <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarDescription" rows="3">Este es un Honda Civic 2023 en excelente estado.</textarea>
+          </div>
+          <div class="mb-4">
+            <label for="editCarImageUrl" class="block text-sm font-medium text-gray-700 mb-1">URL de Imagen</label>
+            <input type="url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarImageUrl" value="https://www.changan.com.pe/media/an4jwp0t/alsvin-web-1000x493-rojo.png">
+          </div>
+          <div class="mb-6">
+            <label for="editCarStatus" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+            <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="editCarStatus" required>
+              <option value="disponible" selected>Disponible</option>
+              <option value="vendido">Vendido</option>
+              <option value="reservado">Reservado</option>
+              <option value="mantenimiento">En Mantenimiento</option>
+            </select>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Guardar Cambios</button>
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('editCarModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">Guardar Cambios</button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Clientes, Proveedores, Ventas, etc. -->
-<div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="clientModalLabel">
+  <!-- Modal genérico para Clientes -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['clientModal']" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['clientModal']"
+      [class.scale-95]="!isModalOpen['clientModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="clientModalLabel">
           <span *ngIf="isEditMode">Editar Cliente</span>
           <span *ngIf="!isEditMode">Añadir Nuevo Cliente</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('clientModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="clientName" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="clientName" placeholder="Nombre completo" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="clientName" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="clientName" placeholder="Nombre completo" required>
             </div>
-            <div class="col-md-6">
-              <label for="clientDNI" class="form-label">DNI</label>
-              <input type="text" class="form-control" id="clientDNI" placeholder="Número de DNI" required>
+            <div>
+              <label for="clientDNI" class="block text-sm font-medium text-gray-700 mb-1">DNI</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="clientDNI" placeholder="Número de DNI" required>
             </div>
-            <div class="col-md-6">
-              <label for="clientPhone" class="form-label">Teléfono</label>
-              <input type="tel" class="form-control" id="clientPhone" placeholder="Número de teléfono">
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="clientPhone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+              <input type="tel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="clientPhone" placeholder="Número de teléfono">
             </div>
-            <div class="col-md-6">
-              <label for="clientEmail" class="form-label">Correo</label>
-              <input type="email" class="form-control" id="clientEmail" placeholder="Correo electrónico">
+            <div>
+              <label for="clientEmail" class="block text-sm font-medium text-gray-700 mb-1">Correo</label>
+              <input type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="clientEmail" placeholder="Correo electrónico">
             </div>
-            <div class="col-12">
-              <label for="clientAddress" class="form-label">Dirección</label>
-              <textarea class="form-control" id="clientAddress" rows="2" placeholder="Dirección completa"></textarea>
-            </div>
+          </div>
+          <div class="mb-6">
+            <label for="clientAddress" class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+            <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="clientAddress" rows="2" placeholder="Dirección completa"></textarea>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('clientModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Añadir Cliente</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Proveedores -->
-<div class="modal fade" id="supplierModal" tabindex="-1" aria-labelledby="supplierModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="supplierModalLabel">
+  <!-- Modal genérico para Proveedores -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['supplierModal']" tabindex="-1" aria-labelledby="supplierModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['supplierModal']"
+      [class.scale-95]="!isModalOpen['supplierModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="supplierModalLabel">
           <span *ngIf="isEditMode">Editar Proveedor</span>
           <span *ngIf="!isEditMode">Añadir Nuevo Proveedor</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('supplierModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="supplierCompanyName" class="form-label">Nombre de Empresa</label>
-              <input type="text" class="form-control" id="supplierCompanyName" placeholder="Nombre de la empresa" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="supplierCompanyName" class="block text-sm font-medium text-gray-700 mb-1">Nombre de Empresa</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="supplierCompanyName" placeholder="Nombre de la empresa" required>
             </div>
-            <div class="col-md-6">
-              <label for="supplierRUC" class="form-label">RUC</label>
-              <input type="text" class="form-control" id="supplierRUC" placeholder="RUC del proveedor" required>
+            <div>
+              <label for="supplierRUC" class="block text-sm font-medium text-gray-700 mb-1">RUC</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="supplierRUC" placeholder="RUC del proveedor" required>
             </div>
-            <div class="col-md-6">
-              <label for="supplierContact" class="form-label">Contacto</label>
-              <input type="text" class="form-control" id="supplierContact" placeholder="Persona de contacto">
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="supplierContact" class="block text-sm font-medium text-gray-700 mb-1">Contacto</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="supplierContact" placeholder="Persona de contacto">
             </div>
-            <div class="col-md-6">
-              <label for="supplierPhone" class="form-label">Teléfono</label>
-              <input type="tel" class="form-control" id="supplierPhone" placeholder="Número de teléfono">
+            <div>
+              <label for="supplierPhone" class="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+              <input type="tel" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="supplierPhone" placeholder="Número de teléfono">
             </div>
-            <div class="col-12">
-              <label for="supplierAddress" class="form-label">Dirección</label>
-              <textarea class="form-control" id="supplierAddress" rows="2" placeholder="Dirección completa"></textarea>
-            </div>
+          </div>
+          <div class="mb-6">
+            <label for="supplierAddress" class="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+            <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="supplierAddress" rows="2" placeholder="Dirección completa"></textarea>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('supplierModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Añadir Proveedor</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Ventas -->
-<div class="modal fade" id="saleModal" tabindex="-1" aria-labelledby="saleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="saleModalLabel">
+  <!-- Modal genérico para Ventas -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['saleModal']" tabindex="-1" aria-labelledby="saleModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['saleModal']"
+      [class.scale-95]="!isModalOpen['saleModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="saleModalLabel">
           <span *ngIf="isEditMode">Editar Venta</span>
           <span *ngIf="!isEditMode">Registrar Nueva Venta</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('saleModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="saleClient" class="form-label">Cliente</label>
-              <select class="form-select" id="saleClient" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="saleClient" class="block text-sm font-medium text-gray-700 mb-1">Cliente</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="saleClient" required>
                 <option value="">Seleccione un cliente</option>
                 <option value="1">Juan Pérez</option>
                 <option value="2">María García</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="saleCar" class="form-label">Auto</label>
-              <select class="form-select" id="saleCar" required>
+            <div>
+              <label for="saleCar" class="block text-sm font-medium text-gray-700 mb-1">Auto</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="saleCar" required>
                 <option value="">Seleccione un auto</option>
                 <option value="1">Honda Civic (2023)</option>
                 <option value="2">Toyota Camry (2022)</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="saleUser" class="form-label">Usuario (Vendedor)</label>
-              <select class="form-select" id="saleUser" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="saleUser" class="block text-sm font-medium text-gray-700 mb-1">Usuario (Vendedor)</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="saleUser" required>
                 <option value="">Seleccione un usuario</option>
                 <option value="1">Admin Principal</option>
                 <option value="2">Vendedor Ejemplo</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="saleDate" class="form-label">Fecha</label>
-              <input type="date" class="form-control" id="saleDate" required>
+            <div>
+              <label for="saleDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+              <input type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="saleDate" required>
             </div>
-            <div class="col-md-6">
-              <label for="salePrice" class="form-label">Precio de Venta ($)</label>
-              <input type="number" class="form-control" id="salePrice" step="0.01" min="0" required>
+          </div>
+          <div class="mb-6">
+            <div>
+              <label for="salePrice" class="block text-sm font-medium text-gray-700 mb-1">Precio de Venta ($)</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="salePrice" step="0.01" min="0" required>
             </div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('saleModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Registrar Venta</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Compras -->
-<div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="purchaseModalLabel">
+  <!-- Modal genérico para Compras -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['purchaseModal']" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['purchaseModal']"
+      [class.scale-95]="!isModalOpen['purchaseModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="purchaseModalLabel">
           <span *ngIf="isEditMode">Editar Compra</span>
           <span *ngIf="!isEditMode">Registrar Nueva Compra</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('purchaseModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="purchaseSupplier" class="form-label">Proveedor</label>
-              <select class="form-select" id="purchaseSupplier" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="purchaseSupplier" class="block text-sm font-medium text-gray-700 mb-1">Proveedor</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="purchaseSupplier" required>
                 <option value="">Seleccione un proveedor</option>
                 <option value="1">AutoParts S.A.C.</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="purchaseCar" class="form-label">Auto</label>
-              <select class="form-select" id="purchaseCar" required>
+            <div>
+              <label for="purchaseCar" class="block text-sm font-medium text-gray-700 mb-1">Auto</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="purchaseCar" required>
                 <option value="">Seleccione un auto</option>
                 <option value="1">Toyota Rav4 (2022)</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="purchaseDate" class="form-label">Fecha</label>
-              <input type="date" class="form-control" id="purchaseDate" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="purchaseDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+              <input type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="purchaseDate" required>
             </div>
-            <div class="col-md-6">
-              <label for="purchasePrice" class="form-label">Precio de Compra ($)</label>
-              <input type="number" class="form-control" id="purchasePrice" step="0.01" min="0" required>
+            <div>
+              <label for="purchasePrice" class="block text-sm font-medium text-gray-700 mb-1">Precio de Compra ($)</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="purchasePrice" step="0.01" min="0" required>
             </div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('purchaseModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Registrar Compra</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Pagos -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="paymentModalLabel">
+  <!-- Modal genérico para Pagos -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['paymentModal']" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['paymentModal']"
+      [class.scale-95]="!isModalOpen['paymentModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="paymentModalLabel">
           <span *ngIf="isEditMode">Editar Pago</span>
           <span *ngIf="!isEditMode">Registrar Nuevo Pago</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('paymentModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="paymentSaleId" class="form-label">ID Venta</label>
-              <input type="number" class="form-control" id="paymentSaleId" placeholder="Ej: 1001" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="paymentSaleId" class="block text-sm font-medium text-gray-700 mb-1">ID Venta</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="paymentSaleId" placeholder="Ej: 1001" required>
             </div>
-            <div class="col-md-6">
-              <label for="paymentMethod" class="form-label">Método de Pago</label>
-              <input type="text" class="form-control" id="paymentMethod" placeholder="Ej: Tarjeta Crédito" required>
+            <div>
+              <label for="paymentMethod" class="block text-sm font-medium text-gray-700 mb-1">Método de Pago</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="paymentMethod" placeholder="Ej: Tarjeta Crédito" required>
             </div>
-            <div class="col-md-6">
-              <label for="paymentAmount" class="form-label">Monto ($)</label>
-              <input type="number" class="form-control" id="paymentAmount" step="0.01" min="0" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label for="paymentAmount" class="block text-sm font-medium text-gray-700 mb-1">Monto ($)</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="paymentAmount" step="0.01" min="0" required>
             </div>
-            <div class="col-md-6">
-              <label for="paymentDate" class="form-label">Fecha</label>
-              <input type="date" class="form-control" id="paymentDate" required>
+            <div>
+              <label for="paymentDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+              <input type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="paymentDate" required>
             </div>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('paymentModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Registrar Pago</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Reembolsos -->
-<div class="modal fade" id="refundModal" tabindex="-1" aria-labelledby="refundModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="refundModalLabel">
+  <!-- Modal genérico para Reembolsos -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['refundModal']" tabindex="-1" aria-labelledby="refundModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['refundModal']"
+      [class.scale-95]="!isModalOpen['refundModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="refundModalLabel">
           <span *ngIf="isEditMode">Editar Reembolso</span>
           <span *ngIf="!isEditMode">Registrar Nuevo Reembolso</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('refundModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="refundSaleId" class="form-label">ID Venta</label>
-              <input type="number" class="form-control" id="refundSaleId" placeholder="Ej: 1001" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="refundSaleId" class="block text-sm font-medium text-gray-700 mb-1">ID Venta</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="refundSaleId" placeholder="Ej: 1001" required>
             </div>
-            <div class="col-12">
-              <label for="refundReason" class="form-label">Motivo</label>
-              <textarea class="form-control" id="refundReason" rows="3" placeholder="Motivo del reembolso"></textarea>
+            <div>
+              <label for="refundAmount" class="block text-sm font-medium text-gray-700 mb-1">Monto ($)</label>
+              <input type="number" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="refundAmount" step="0.01" min="0" required>
             </div>
-            <div class="col-md-6">
-              <label for="refundAmount" class="form-label">Monto ($)</label>
-              <input type="number" class="form-control" id="refundAmount" step="0.01" min="0" required>
-            </div>
-            <div class="col-md-6">
-              <label for="refundDate" class="form-label">Fecha</label>
-              <input type="date" class="form-control" id="refundDate" required>
-            </div>
+          </div>
+          <div class="mb-4">
+            <label for="refundReason" class="block text-sm font-medium text-gray-700 mb-1">Motivo</label>
+            <textarea class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="refundReason" rows="3" placeholder="Motivo del reembolso"></textarea>
+          </div>
+          <div class="mb-6">
+            <label for="refundDate" class="block text-sm font-medium text-gray-700 mb-1">Fecha</label>
+            <input type="date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="refundDate" required>
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('refundModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Registrar Reembolso</span>
         </button>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal genérico para Usuarios -->
-<div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="userModalLabel">
+  <!-- Modal genérico para Usuarios -->
+  <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center z-50 transition-opacity duration-300"
+    [class.hidden]="!isModalOpen['userModal']" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="relative p-5 border w-full max-w-2xl shadow-lg rounded-md bg-white transform transition-transform duration-300"
+      [class.scale-100]="isModalOpen['userModal']"
+      [class.scale-95]="!isModalOpen['userModal']">
+      <div class="flex justify-between items-center pb-3">
+        <h5 class="text-xl font-medium" id="userModalLabel">
           <span *ngIf="isEditMode">Editar Usuario</span>
           <span *ngIf="!isEditMode">Añadir Nuevo Usuario</span>
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="text-gray-400 hover:text-gray-600 focus:outline-none" (click)="closeModal('userModal')" aria-label="Close">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
-      <div class="modal-body">
+      <div class="mt-2">
         <form>
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="userName" class="form-label">Nombre</label>
-              <input type="text" class="form-control" id="userName" placeholder="Nombre del usuario" required>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="userName" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="userName" placeholder="Nombre del usuario" required>
             </div>
-            <div class="col-md-6">
-              <label for="userApellido" class="form-label">Apellido</label>
-              <input type="text" class="form-control" id="userApellido" placeholder="Apellido del usuario" required>
+            <div>
+              <label for="userApellido" class="block text-sm font-medium text-gray-700 mb-1">Apellido</label>
+              <input type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="userApellido" placeholder="Apellido del usuario" required>
             </div>
-            <div class="col-md-6">
-              <label for="userEmail" class="form-label">Correo</label>
-              <input type="email" class="form-control" id="userEmail" placeholder="Correo electrónico" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label for="userEmail" class="block text-sm font-medium text-gray-700 mb-1">Correo</label>
+              <input type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="userEmail" placeholder="Correo electrónico" required>
             </div>
-            <div class="col-md-6">
-              <label for="userPassword" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="userPassword" placeholder="Contraseña (dejar vacío para no cambiar)" [required]="!isEditMode">
+            <div>
+              <label for="userPassword" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+              <input type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="userPassword" placeholder="Contraseña (dejar vacío para no cambiar)" [required]="!isEditMode">
             </div>
-            <div class="col-md-6">
-              <label for="userRole" class="form-label">Rol</label>
-              <select class="form-select" id="userRole" required>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <label for="userRole" class="block text-sm font-medium text-gray-700 mb-1">Rol</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="userRole" required>
                 <option value="administrador">Administrador</option>
                 <option value="vendedor">Vendedor</option>
                 <option value="gerente">Gerente</option>
               </select>
             </div>
-            <div class="col-md-6">
-              <label for="userStatus" class="form-label">Estado</label>
-              <select class="form-select" id="userStatus" required>
+            <div>
+              <label for="userStatus" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+              <select class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" id="userStatus" required>
                 <option value="1">Activo</option>
                 <option value="0">Inactivo</option>
               </select>
@@ -1206,9 +1364,9 @@
           </div>
         </form>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">
+      <div class="flex justify-end items-center pt-4">
+        <button type="button" class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded-md mr-2" (click)="closeModal('userModal')">Cancelar</button>
+        <button type="button" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md">
           <span *ngIf="isEditMode">Guardar Cambios</span>
           <span *ngIf="!isEditMode">Añadir Usuario</span>
         </button>
