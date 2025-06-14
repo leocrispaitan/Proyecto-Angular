@@ -8,24 +8,36 @@ import { CommonModule } from '@angular/common'; // Importa CommonModule para ngS
   standalone: true,
   imports: [CommonModule], // Agrega CommonModule aquí
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css', '../styles.css'] // La ruta '../styles.css' es correcta si styles.css está en src/
+  styleUrls: ['./app.component.css'] // Eliminada referencia a Bootstrap CSS, './styles.css' podría seguir conteniendo estilos globales que necesites
 })
 export class AppComponent implements AfterViewInit {
   title = 'angular-concesionaria'; // Puedes cambiar el título si quieres
 
-  isSidebarCollapsed: boolean = false; // Estado para controlar si la sidebar está colapsada
+  isSidebarCollapsed: boolean = false; // Estado para controlar si la sidebar está colapsada (escritorio)
   isMobileSidebarOpen: boolean = false; // Estado para controlar si la sidebar está abierta en móvil
   activeSection: string = 'dashboard'; // Sección activa actual
+  isMobile: boolean = false; // Nuevo estado para rastrear si la pantalla es móvil (para lógica responsiva)
 
   // Variables para controlar el modo de edición/añadir en los modales
   isEditMode: boolean = false;
   // Variable para identificar qué tipo de entidad se está editando/añadiendo
   currentEntity: string = ''; // 'client', 'supplier', 'sale', 'purchase', 'payment', 'refund', 'user'
 
+  // Objeto para controlar la visibilidad de cada modal
+  isModalOpen: { [key: string]: boolean } = {
+    deleteConfirmationModal: false,
+    editCarModal: false,
+    clientModal: false,
+    supplierModal: false,
+    saleModal: false,
+    purchaseModal: false,
+    paymentModal: false,
+    refundModal: false,
+    userModal: false
+  };
 
   constructor() {
     // Escuchar cambios en el tamaño de la ventana para ajustar la barra lateral
-    // Asegúrate de que this esté correctamente bindeado para acceder a las propiedades del componente
     window.addEventListener('resize', this.onWindowResize.bind(this));
   }
 
@@ -38,7 +50,7 @@ export class AppComponent implements AfterViewInit {
   showSection(sectionId: string): void {
     this.activeSection = sectionId;
     // Cierra la barra lateral móvil si está abierta después de seleccionar una sección
-    if (this.isMobileSidebarOpen) {
+    if (this.isMobile && this.isMobileSidebarOpen) { // Solo cierra en móvil si está abierta
       this.toggleMobileSidebar();
     }
   }
@@ -51,59 +63,35 @@ export class AppComponent implements AfterViewInit {
   // Alterna el estado colapsado/expandido de la barra lateral para pantallas grandes
   toggleSidebarCollapse(): void {
     this.isSidebarCollapsed = !this.isSidebarCollapsed; // Invierte el estado
-    const sidebar = document.getElementById('sidebar'); // Obtiene la referencia a la barra lateral
-    const mainContent = document.getElementById('main-content'); // Obtiene la referencia al contenido principal
-
-    if (sidebar && mainContent) { // Verifica que los elementos existan en el DOM
-      if (this.isSidebarCollapsed) {
-        sidebar.classList.add('collapsed'); // Añade la clase para colapsar la barra lateral
-        mainContent.classList.add('expanded'); // Añade la clase para expandir el contenido principal
-      } else {
-        sidebar.classList.remove('collapsed'); // Elimina la clase para expandir la barra lateral
-        mainContent.classList.remove('expanded'); // Elimina la clase para contraer el contenido principal
-      }
-    }
   }
 
   // Alterna la visibilidad de la barra lateral en pantallas pequeñas (modo móvil)
   toggleMobileSidebar(): void {
     this.isMobileSidebarOpen = !this.isMobileSidebarOpen; // Invierte el estado móvil
-    const sidebar = document.getElementById('sidebar'); // Obtiene la referencia a la barra lateral
+  }
 
-    if (sidebar) { // Verifica que la barra lateral exista
-      if (this.isMobileSidebarOpen) {
-        sidebar.classList.add('show'); // Añade la clase 'show' para mostrar la barra lateral en móvil
-      } else {
-        sidebar.classList.remove('show'); // Elimina la clase 'show' para ocultar la barra lateral en móvil
-      }
-    }
+  // Función para abrir un modal específico
+  openModal(modalId: string): void {
+    this.isModalOpen[modalId] = true;
+  }
+
+  // Función para cerrar un modal específico
+  closeModal(modalId: string): void {
+    this.isModalOpen[modalId] = false;
   }
 
   // Actualiza el estado de la barra lateral basado en el tamaño de la ventana
   private updateSidebarState(): void {
-    const isMobile = window.innerWidth <= 768; // Define si la pantalla es móvil o no
-    const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('main-content');
+    this.isMobile = window.innerWidth <= 768; // Define si la pantalla es móvil (o menor que md de Tailwind)
 
-    if (sidebar && mainContent) {
-      if (isMobile) {
-        // En móvil, la barra lateral está oculta por defecto y se muestra con el toggle
-        sidebar.classList.remove('collapsed'); // Asegura que no tenga la clase de colapso de escritorio
-        mainContent.classList.remove('expanded'); // Asegura que no tenga la clase de expansión de escritorio
-        if (!this.isMobileSidebarOpen) { // Solo ocultar si no está explícitamente abierta por el usuario
-            sidebar.classList.remove('show');
-        }
-      } else {
-        // En escritorio, la barra lateral usa el estado colapsado/expandido
-        sidebar.classList.remove('show'); // Asegura que la clase 'show' (de móvil) no interfiera
-        if (this.isSidebarCollapsed) {
-          sidebar.classList.add('collapsed');
-          mainContent.classList.add('expanded');
-        } else {
-          sidebar.classList.remove('collapsed');
-          mainContent.classList.remove('expanded');
-        }
-      }
+    if (this.isMobile) {
+      // En móvil, la barra lateral está inicialmente oculta y se controla con isMobileSidebarOpen.
+      // El estado de colapso de escritorio no aplica.
+      this.isSidebarCollapsed = false; // Aseguramos que el estado de colapso de escritorio esté en falso en móvil
+    } else {
+      // En escritorio, la barra lateral usa el estado colapsado/expandido,
+      // y la visibilidad móvil debe ser falsa.
+      this.isMobileSidebarOpen = false;
     }
   }
 
