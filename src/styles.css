@@ -40,6 +40,14 @@ body {
     transition: all 0.3s ease;
     z-index: 1000; /* Asegura que esté por encima del contenido principal */
     box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* Sombra para dar profundidad */
+    overflow-y: auto; /* Agrega scroll vertical cuando sea necesario */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Ocultar la barra de desplazamiento para navegadores basados en Webkit (Chrome, Safari, Edge) */
+.sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 .sidebar.collapsed {
