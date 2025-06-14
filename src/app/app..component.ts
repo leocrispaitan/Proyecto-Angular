@@ -1,3 +1,5 @@
+// app.component.ts:
+
 import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importa CommonModule para ngSwitch y ngClass
 
@@ -14,6 +16,12 @@ export class AppComponent implements AfterViewInit {
   isSidebarCollapsed: boolean = false; // Estado para controlar si la sidebar está colapsada
   isMobileSidebarOpen: boolean = false; // Estado para controlar si la sidebar está abierta en móvil
   activeSection: string = 'dashboard'; // Sección activa actual
+
+  // Variables para controlar el modo de edición/añadir en los modales
+  isEditMode: boolean = false;
+  // Variable para identificar qué tipo de entidad se está editando/añadiendo
+  currentEntity: string = ''; // 'client', 'supplier', 'sale', 'purchase', 'payment', 'refund', 'user'
+
 
   constructor() {
     // Escuchar cambios en el tamaño de la ventana para ajustar la barra lateral
@@ -33,6 +41,11 @@ export class AppComponent implements AfterViewInit {
     if (this.isMobileSidebarOpen) {
       this.toggleMobileSidebar();
     }
+  }
+
+  // Establece la entidad actual para el modal genérico (ej. 'client', 'supplier')
+  setCurrentEntity(entityType: string): void {
+    this.currentEntity = entityType;
   }
 
   // Alterna el estado colapsado/expandido de la barra lateral para pantallas grandes
