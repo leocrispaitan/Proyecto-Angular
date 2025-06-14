@@ -1,0 +1,400 @@
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h3 class="flex items-center justify-center">
+      <i class="fas fa-car mr-2"></i> <span class="logo-text">Auto Admin</span>
+    </h3>
+  </div>
+  <ul class="list-unstyled components">
+    <li>
+      <a href="#" data-section="dashboard" [class.active]="activeSection === 'dashboard'" (click)="showSection('dashboard')">
+        <i class="fas fa-tachometer-alt"></i> <span>Dashboard</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-section="add-car" [class.active]="activeSection === 'add-car'" (click)="showSection('add-car')">
+        <i class="fas fa-plus-circle"></i> <span>Añadir Auto</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-section="manage-cars" [class.active]="activeSection === 'manage-cars'" (click)="showSection('manage-cars')">
+        <i class="fas fa-cogs"></i> <span>Gestionar Autos</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-section="inventory" [class.active]="activeSection === 'inventory'" (click)="showSection('inventory')">
+        <i class="fas fa-warehouse"></i> <span>Inventario</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" data-section="settings" [class.active]="activeSection === 'settings'" (click)="showSection('settings')">
+        <i class="fas fa-cog"></i> <span>Configuración</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="list-unstyled components mt-auto">
+    <li>
+      <a href="#" data-section="logout" [class.active]="activeSection === 'logout'" (click)="showSection('logout')">
+        <i class="fas fa-sign-out-alt"></i> <span>Cerrar Sesión</span>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<!-- Main Content -->
+<div class="main-content" id="main-content" [class.expanded]="isSidebarCollapsed">
+  <!-- Navbar (Header) -->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+      <!-- Botón para alternar la barra lateral (visible en pantallas pequeñas) -->
+      <button class="navbar-toggler" type="button" (click)="toggleMobileSidebar()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Botón para colapsar/expandir en pantallas grandes -->
+      <button class="btn btn-outline-primary me-3 d-none d-lg-block" (click)="toggleSidebarCollapse()">
+        <i class="fas fa-bars"></i>
+      </button>
+      <a class="navbar-brand d-none d-lg-block" href="#">Dashboard de Concesionaria</a>
+      <div class="ms-auto d-flex align-items-center">
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-2"></i> Admin User
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Perfil</a></li>
+            <li><a class="dropdown-item" href="#">Configuración</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Cerrar Sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contenido principal dinámico -->
+  <div [ngSwitch]="activeSection">
+    <div *ngSwitchCase="'dashboard'" id="dashboard-section" class="content-section">
+      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Dashboard General</h2>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card metric-card">
+            <div class="card-body">
+              <i class="fas fa-car icon"></i>
+              <div class="value">250</div>
+              <div class="label">Total de Autos</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card metric-card">
+            <div class="card-body">
+              <i class="fas fa-dollar-sign icon text-green-600"></i>
+              <div class="value">120</div>
+              <div class="label">Autos Vendidos</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card metric-card">
+            <div class="card-body">
+              <i class="fas fa-boxes icon text-yellow-600"></i>
+              <div class="value">130</div>
+              <div class="label">Stock Disponible</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card metric-card">
+            <div class="card-body">
+              <i class="fas fa-clipboard-list icon text-red-600"></i>
+              <div class="value">15</div>
+              <div class="label">Órdenes Pendientes</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-success text-white">
+              Actividad Reciente
+            </div>
+            <div class="card-body">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Nuevo auto añadido: Honda Civic 2023
+                  <span class="badge bg-primary rounded-pill">Hace 5 min</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Venta completada: Ford F-150
+                  <span class="badge bg-success rounded-pill">Hace 1 hora</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Stock actualizado: Toyota Camry (+3)
+                  <span class="badge bg-info rounded-pill">Hace 3 horas</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  Nuevo cliente registrado
+                  <span class="badge bg-secondary rounded-pill">Hace 1 día</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-info text-white">
+              Acciones Rápidas
+            </div>
+            <div class="card-body d-flex flex-column gap-3">
+              <button class="btn btn-primary d-block" (click)="showSection('add-car')">
+                <i class="fas fa-plus-circle me-2"></i> Añadir Nuevo Auto
+              </button>
+              <button class="btn btn-outline-secondary d-block" (click)="showSection('manage-cars')">
+                <i class="fas fa-cogs me-2"></i> Gestionar Autos Existentes
+              </button>
+              <button class="btn btn-outline-secondary d-block" (click)="showSection('inventory')">
+                <i class="fas fa-warehouse me-2"></i> Ver Inventario Completo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'add-car'" id="add-car-section" class="content-section">
+      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Añadir Nuevo Automóvil</h2>
+      <div class="card">
+        <div class="card-body">
+          <form id="add-car-form">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="make" class="form-label">Marca</label>
+                <input type="text" class="form-control" id="make" placeholder="Ej: Toyota" required>
+              </div>
+              <div class="col-md-6">
+                <label for="model" class="form-label">Modelo</label>
+                <input type="text" class="form-control" id="model" placeholder="Ej: Corolla" required>
+              </div>
+              <div class="col-md-4">
+                <label for="year" class="form-label">Año</label>
+                <input type="number" class="form-control" id="year" placeholder="Ej: 2023" min="1900" max="2099" required>
+              </div>
+              <div class="col-md-4">
+                <label for="vin" class="form-label">VIN</label>
+                <input type="text" class="form-control" id="vin" placeholder="Ej: 1A2B3C4D5E6F7G8H9" maxlength="17" required>
+              </div>
+              <div class="col-md-4">
+                <label for="color" class="form-label">Color</label>
+                <input type="text" class="form-control" id="color" placeholder="Ej: Rojo" required>
+              </div>
+              <div class="col-md-6">
+                <label for="price" class="form-label">Precio ($)</label>
+                <input type="number" class="form-control" id="price" placeholder="Ej: 25000" min="0" step="0.01" required>
+              </div>
+              <div class="col-md-6">
+                <label for="stock" class="form-label">Stock Inicial</label>
+                <input type="number" class="form-control" id="stock" placeholder="Ej: 5" min="0" required>
+              </div>
+              <div class="col-12">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description" rows="3" placeholder="Descripción detallada del vehículo..."></textarea>
+              </div>
+              <div class="col-12 mt-4">
+                <label for="image-upload" class="form-label">Imagen del Auto</label>
+                <input class="form-control" type="file" id="image-upload" accept="image/*">
+              </div>
+              <div class="col-12 mt-4">
+                <button type="submit" class="btn btn-primary w-full">
+                  <i class="fas fa-save me-2"></i> Guardar Auto
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'manage-cars'" id="manage-cars-section" class="content-section">
+      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Gestionar Automóviles</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3">
+            <input type="text" class="form-control" id="car-search" placeholder="Buscar por marca, modelo, VIN...">
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Año</th>
+                  <th>VIN</th>
+                  <th>Precio</th>
+                  <th>Stock</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="cars-table-body">
+                <!-- Ejemplo de datos (serán llenados por Spring Boot en el futuro) -->
+                <tr>
+                  <td>1</td>
+                  <td>Honda</td>
+                  <td>Civic</td>
+                  <td>2023</td>
+                  <td>VIN1234567890ABCDE</td>
+                  <td>$28,500.00</td>
+                  <td>10</td>
+                  <td>
+                    <button class="btn btn-sm btn-info me-2 text-white"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Toyota</td>
+                  <td>Camry</td>
+                  <td>2022</td>
+                  <td>VIN0987654321FEDCBA</td>
+                  <td>$26,000.00</td>
+                  <td>7</td>
+                  <td>
+                    <button class="btn btn-sm btn-info me-2 text-white"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Ford</td>
+                  <td>F-150</td>
+                  <td>2024</td>
+                  <td>VIN11223344556677889</td>
+                  <td>$45,000.00</td>
+                  <td>5</td>
+                  <td>
+                    <button class="btn btn-sm btn-info me-2 text-white"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></button>
+                  </td>
+                </tr>
+                <!-- Más filas si es necesario -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'inventory'" id="inventory-section" class="content-section">
+      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Inventario de Automóviles</h2>
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3 row">
+            <div class="col-md-6">
+              <input type="text" class="form-control" placeholder="Filtrar inventario...">
+            </div>
+            <div class="col-md-6 text-md-end">
+              <button class="btn btn-success"><i class="fas fa-file-excel me-2"></i> Exportar a Excel</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Año</th>
+                  <th>Color</th>
+                  <th>VIN</th>
+                  <th>Stock</th>
+                  <th>Precio</th>
+                  <th>Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>101</td>
+                  <td>BMW</td>
+                  <td>X5</td>
+                  <td>2023</td>
+                  <td>Negro</td>
+                  <td>VINX5BWM230001</td>
+                  <td>3</td>
+                  <td>$65,000.00</td>
+                  <td class="text-success font-semibold">Disponible</td>
+                </tr>
+                <tr>
+                  <td>102</td>
+                  <td>Mercedes-Benz</td>
+                  <td>C-Class</td>
+                  <td>2022</td>
+                  <td>Blanco</td>
+                  <td>VINMBCCLS220002</td>
+                  <td>5</td>
+                  <td>$48,000.00</td>
+                  <td class="text-success font-semibold">Disponible</td>
+                </tr>
+                <tr>
+                  <td>103</td>
+                  <td>Audi</td>
+                  <td>A4</td>
+                  <td>2023</td>
+                  <td>Gris</td>
+                  <td>VINAUDIA4230003</td>
+                  <td>2</td>
+                  <td>$42,000.00</td>
+                  <td class="text-warning font-semibold">Bajo Stock</td>
+                </tr>
+                <tr>
+                  <td>104</td>
+                  <td>Tesla</td>
+                  <td>Model 3</td>
+                  <td>2024</td>
+                  <td>Azul</td>
+                  <td>VINTSLA3240004</td>
+                  <td>7</td>
+                  <td>$55,000.00</td>
+                  <td class="text-success font-semibold">Disponible</td>
+                </tr>
+                <tr>
+                  <td>105</td>
+                  <td>Porsche</td>
+                  <td>911</td>
+                  <td>2023</td>
+                  <td>Rojo</td>
+                  <td>VINPORS911230005</td>
+                  <td>1</td>
+                  <td>$120,000.00</td>
+                  <td class="text-danger font-semibold">Última Unidad</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'settings'" id="settings-section" class="content-section">
+      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Configuración del Sistema</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>Aquí irían las opciones de configuración del sistema, como gestión de usuarios, roles, ajustes de notificaciones, etc. ¡Será una sección importante para tu Spring Boot!</p>
+          <button class="btn btn-outline-primary">Guardar Configuración</button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'logout'" id="logout-section" class="content-section">
+      <h2 class="mb-4 text-2xl font-semibold text-gray-800">Cerrar Sesión</h2>
+      <div class="card">
+        <div class="card-body">
+          <p>¿Estás seguro de que quieres cerrar tu sesión?</p>
+          <button class="btn btn-danger me-2">Sí, Cerrar Sesión</button>
+          <button class="btn btn-secondary" (click)="showSection('dashboard')">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
